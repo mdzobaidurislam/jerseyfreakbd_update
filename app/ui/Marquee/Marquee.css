@@ -1,0 +1,38 @@
+:root {
+  --dark-blue: #181733;
+  --gradient-3: linear-gradient(165deg, var(--red) 7%, var(--blue) 88%);
+  --blue: #0068ff;
+  --red: #ef1f46;
+}
+.fcb-section-marquee {
+  background-color: var(--dark-blue);
+  padding: 0;
+}
+.fcb-marquee {
+  -webkit-user-select: none;
+  user-select: none;
+  text-transform: uppercase;
+  background: var(--gradient-3);
+  -webkit-text-fill-color: transparent;
+  text-fill-color: transparent;
+  border-style: solid;
+  border-width: 2px 0;
+  border-image: var(--gradient-3) 1;
+  -webkit-background-clip: text;
+  background-clip: text;
+  font-family: FCB-02-Bold;
+  font-size: 3.5rem;
+  font-weight: 700;
+  display: flex;
+  overflow: hidden;
+}
+.fcb-marquee > *:after {
+  content: "\25cf";
+  padding-left: 2rem;
+  font-size: 0.3em;
+}
+@media screen and (max-width: 768px) {
+  .fcb-marquee {
+    font-size: 2.5rem;
+  }
+}
