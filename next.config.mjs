@@ -6,7 +6,7 @@ const nextConfig = {
       "ecomm.test",
       "autyhenticbd_api.test",
       "ecom_s.test",
-      "autyhenticbdapi.techdynobdltd.com",
+      "admin.jerseyfreakbd.com",
       "jerseyfreak.test",
       "autyhenticbd.techdynobdltd.com",
       "jerseyfreak.techdynobdltd.com",
