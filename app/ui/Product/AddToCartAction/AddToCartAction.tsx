@@ -45,7 +45,7 @@ export default function AddToCartAction({
     const addToCartHandler = async () => {
         if (qtyV === 0) {
             setIsRequestModal(true),
-                setRequestVariation(combinationId)
+            setRequestVariation(combinationId)
             return false;
         }
         if (!combinationName && choice_options.length > 0) {

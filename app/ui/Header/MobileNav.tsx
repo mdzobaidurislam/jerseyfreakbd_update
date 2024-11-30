@@ -56,7 +56,7 @@ const MobileNav = ({ menus, setting }: any) => {
     const profile_data = [
         {
             id: 1,
-            name: 'Account',
+            name: session?.data?.user ? session?.data?.user?.name :'Account',
             slug: '/user/dashboard',
             children: [
                 {
@@ -262,10 +262,10 @@ const MobileNav = ({ menus, setting }: any) => {
                                                         )}
                                                     </li>
                                                 ))}
-                                                <li className="b-menu_panel-footer">
+                                                {/* <li className="b-menu_panel-footer">
 
                                                     <SignOutForm sign_out={"Sign out"} />
-                                                </li>
+                                                </li> */}
                                             </> : <>
                                                 {user_data.map((item) => (
                                                     <li key={item.id} className="b-menu_panel-footer">

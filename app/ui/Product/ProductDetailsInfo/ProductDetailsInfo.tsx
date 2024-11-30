@@ -302,7 +302,10 @@ export default function ProductDetailsInfo({ productDetails }: any) {
                 </ul>
 
                 {/* youtube video link  */}
+                {
+                    productDetails?.video_link &&
                 <YouTubeEmbed videoLink={productDetails?.video_link} />
+                }
             </div>
 
             {/* product content info  */}
@@ -343,7 +346,7 @@ export default function ProductDetailsInfo({ productDetails }: any) {
                                     {productDetails?.translate?.size_chart}</div>
                             }
                         </div>
-                        <ProductOptions id={productDetails?.id} choice_options={productDetails?.choice_options} colors={productDetails?.colors} />
+                        <ProductOptions stocks={productDetails?.stocks} id={productDetails?.id} choice_options={productDetails?.choice_options} colors={productDetails?.colors} />
 
                         {/* <div className="options flex flex-wrap gap-3 w-full ">
                         {

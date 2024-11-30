@@ -58,8 +58,9 @@ export default async function Page() {
           <h3 className="text-xl font-semibold mb-4">Default Shipping Address</h3>
           <p><strong>Address:</strong> {result?.address?.address}</p>
           <p><strong>Country:</strong> {result?.address?.country?.name}</p>
-          <p><strong>State:</strong> {result?.address?.state?.name}</p>
-          <p><strong>City:</strong> {result?.address?.city?.name}</p>
+          <p><strong>City:</strong> {result?.address?.city_name}</p>
+          <p><strong>Area:</strong> {result?.address?.area_name}</p>
+          <p><strong>Zone:</strong> {result?.address?.zone_name}</p>
           <p><strong>Postal code:</strong> {result?.address?.postal_code}</p>
           <p><strong>Phone:</strong> {result?.address?.phone}</p>
         </div>

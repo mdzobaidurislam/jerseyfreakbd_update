@@ -22,9 +22,10 @@ export default function DesktopSearch({ isDialogOpen, setIsDialogOpen }: any) {
                 `/api/search?name=${searchInput}`,
 
             );
+            if(response?.data?.data){
 
-            console.log(response.data)
-            setSearchItems(response.data.data)
+                setSearchItems(response.data.data)
+            }
             setLoading(false)
         } catch (error) {
             console.log(error)
@@ -38,7 +39,10 @@ export default function DesktopSearch({ isDialogOpen, setIsDialogOpen }: any) {
                 `/api/search/suggestions?query_key=${searchInput}`,
 
             );
-            setSuggestion(response.data)
+            if(response?.data){
+
+                setSuggestion(response.data)
+            }
             setLoading(false)
         } catch (error) {
             console.log(error)

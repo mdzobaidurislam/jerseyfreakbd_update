@@ -1,8 +1,7 @@
-import CustomInput from '@/app/ui/CustomInput';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
 
-export default function AddressFormSignUp({ setValue, register, errors, country, state, cities, formData, setFormData }: any) {
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+
+export default function AddressFormSignUp({ zone, area,setValue, register, errors, country, state, cities, formData, setFormData }: any) {
 
 
     const handleSelectChange = (value: string) => {
@@ -18,26 +17,37 @@ export default function AddressFormSignUp({ setValue, register, errors, country,
     };
 
     const handleSelectCities = (value: string) => {
-        const existCities = cities.find((item: any) => item.id === value);
+        const existCities = cities.find((item: any) => item.city_id === value);
         if (existCities) {
             setFormData({
                 ...formData,
                 city_id: value,
-                city_name: existCities.name
+                city_name: existCities.city_name
             });
             setValue('city_id', value, { shouldValidate: true });
         }
     };
 
-    const handleSelectState = (value: string) => {
-        const existState = state.find((item: any) => item.id === value);
+    const handleSelectZone = (value: string) => {
+        const existState = zone.find((item: any) => item.zone_id === value);
         if (existState) {
             setFormData({
                 ...formData,
-                state_id: value,
-                state_name: existState.name
+                zone_id: value,
+                zone_name: existState.zone_name
             });
-            setValue('state_id', value, { shouldValidate: true });
+            setValue('zone_id', value, { shouldValidate: true });
+        }
+    };
+    const handleSelectArea = (value: string) => {
+        const existState = area.find((item: any) => item.area_id === value);
+        if (existState) {
+            setFormData({
+                ...formData,
+                area_id: value,
+                area_name: existState.area_name
+            });
+            setValue('area_id', value, { shouldValidate: true });
         }
     };
 
@@ -60,51 +70,73 @@ export default function AddressFormSignUp({ setValue, register, errors, country,
                         placeholder="Post code"
                     />
                 </div>
-                {/* State */}
-                {state && state.length > 1 && (
-                    <div className="mb-4 w-full">
-                        <label className="block text-lg font-medium mb-2">State</label>
-                        <Select value={formData?.state_id} onValueChange={handleSelectState}>
-                            <SelectTrigger className=" w-full py-2 pl-4 pr-4 text-[#391C1D] placeholder-[#391C1D] bg-transparent rounded-sm 
-                                border focus:outline-none focus:ring-1 focus:ring-accent-lightPink 
-                                focus:border-accent-lightPink shadow-lg backdrop-blur-lg form_input">
-                                <SelectValue placeholder="Select a state" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {state.map((item: any) => (
-                                    <SelectItem key={item.id} value={item.id}>{item.name}</SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                        <input type="hidden"  {...register("state_id", {
-                            required: "State is required"
-                        })} />
-                        {errors.state_id && <p className="text-red-500 text-sm mt-1">{errors.state_id.message}</p>}
-                    </div>
-                )}
-
                 {/* City */}
-                {cities.length > 0 && (
-                    <div className="mb-4 w-full">
-                        <label className="block text-lg font-medium mb-2">City</label>
+
+                <div className="mb-4 w-full">
+                    <label className="block text-sm font-medium mb-2">City</label>
+                    {cities.length > 0 && (
                         <Select value={formData?.city_id} onValueChange={handleSelectCities}>
-                            <SelectTrigger className="w-full py-2 pl-4 pr-4 text-[#391C1D] placeholder-[#391C1D] bg-transparent rounded-sm 
-                                border focus:outline-none focus:ring-1 focus:ring-accent-lightPink 
-                                focus:border-accent-lightPink shadow-lg backdrop-blur-lg form_input">
+                            <SelectTrigger className="w-full">
                                 <SelectValue placeholder="Select a city" />
                             </SelectTrigger>
-                            <SelectContent className='backdrop-blur-lg' >
+                            <SelectContent>
                                 {cities.map((item: any) => (
-                                    <SelectItem key={item.id} value={item.id}>{item.name}</SelectItem>
+                                    <SelectItem key={item.city_id} value={item.city_id}>{item.city_name}</SelectItem>
                                 ))}
                             </SelectContent>
                         </Select>
-                        <input type="hidden"  {...register("city_id", {
-                            required: "City is required"
-                        })} />
-                        {errors.city_id && <p className="text-red-500 text-sm mt-1">{errors.city_id.message}</p>}
-                    </div>
-                )}
+                    )}
+                    <input type="hidden"  {...register("city_id", {
+                        required: "City is required"
+                    })} />
+                    {errors.city_id && <p className="text-red-500 text-sm mt-1">{errors.city_id.message}</p>}
+                </div>
+
+
+                {/* zone */}
+
+                <div className="mb-4 w-full">
+                    <label className="block text-sm font-medium mb-2">Zone</label>
+                    {zone && zone.length > 1 && (
+                        <Select value={formData?.zone_id} onValueChange={handleSelectZone}>
+                            <SelectTrigger className="w-full">
+                                <SelectValue placeholder="Select a zone" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {zone.map((item: any) => (
+                                    <SelectItem key={item.zone_id} value={item.zone_id}>{item.zone_name}</SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    )}
+                    <input type="hidden"  {...register("zone_id", {
+                        required: "Zone is required"
+                    })} />
+                    {errors.zone_id && <p className="text-red-500 text-sm mt-1">{errors.zone_id.message}</p>}
+                </div>
+
+
+                {/* zone */}
+
+                <div className="mb-4 w-full">
+                    <label className="block text-sm font-medium mb-2">Area</label>
+                    {area && area.length > 1 && (
+                        <Select value={formData?.area_id} onValueChange={handleSelectArea}>
+                            <SelectTrigger className="w-full">
+                                <SelectValue placeholder="Select a area" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {area.map((item: any) => (
+                                    <SelectItem key={item.area_id} value={item.area_id}>{item.area_name}</SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    )}
+                    <input type="hidden"  {...register("area_id", {
+                        required: "Area is required"
+                    })} />
+                    {errors.area_id && <p className="text-red-500 text-sm mt-1">{errors.area_id.message}</p>}
+                </div>
             </div>
         </>
     );

@@ -57,6 +57,8 @@ export function OtpForm({ forget = false, translate, useEmailOrPhone, formData, 
     const [country, setCountry] = useState<any[]>([])
     const [cities, setCities] = useState<any[]>([])
     const [state, setState] = useState<any[]>([])
+    const [zone, setZone] = useState<any[]>([])
+    const [area, setArea] = useState<any[]>([])
 
     const [formDataSignUp, setFormData] = useState({
         name: '',
@@ -70,6 +72,7 @@ export function OtpForm({ forget = false, translate, useEmailOrPhone, formData, 
         country_id: '',
         city_id: '',
         state_id: '',
+        zone_id: '',
         password: '',
         confirmPassword: ''
     });
@@ -91,73 +94,93 @@ export function OtpForm({ forget = false, translate, useEmailOrPhone, formData, 
         }
     }, [formDataSignUp])
 
-    // getCountry 
-    const getCountry = async () => {
-        try {
-            const response: any = await axios.get(
-                `/api/country`);
-            setCountry(response.data.data)
-            setFormData({
-                ...formDataSignUp,
-                country_id: response.data.data[0].id,
-                country_name: response.data.data[0].name
-            });
-            setValue('country_id', response.data.data[0].id, { shouldValidate: true });
-        } catch (error) {
-            console.log(error)
-        }
-    }
-    // states-by-country 
-    const states_by_country = async (id: any) => {
-        try {
-            const response: any = await axios.post(
-                `/api/states-by-country/`, {
-                id: id
-            });
-            return response.data.data
-        } catch (error) {
-            console.log(error)
-        }
-    }
-    // getCountry 
-    const getCities = async (id: any) => {
-        try {
-            const response: any = await axios.post(
-                `/api/cities-by-state`, {
-                id: id
-            });
-            return response.data.data;
 
-        } catch (error) {
-            console.log(error)
-        }
-    }
     useEffect(() => {
         getCountry()
     }, [])
-
-    useEffect(() => {
-        const fetchStates = async () => {
-            if (formDataSignUp?.country_id) {
-                const result = await states_by_country(formDataSignUp?.country_id);
-                setState(result as any);
-            }
-        };
-
-        fetchStates();
-    }, [formDataSignUp?.country_id]);
-
     useEffect(() => {
         const fetchCities = async () => {
-            if (formDataSignUp?.country_id) {
-                if (formDataSignUp?.state_id) {
-                    const result = await getCities(formDataSignUp?.state_id)
-                    setCities(result as any)
-                }
-            }
+            const result = await getCities()
+            setCities(result as any)
         };
         fetchCities()
-    }, [formDataSignUp?.state_id])
+    }, [])
+
+        // getCountry 
+        const getCountry = async () => {
+            try {
+                const response: any = await axios.get(
+                    `/api/country`);
+                setCountry(response.data.data)
+                setFormData({
+                    ...formDataSignUp,
+                    country_id: response.data.data[0].id,
+                    country_name: response.data.data[0].name
+                });
+                setValue('country_id', response.data.data[0].id, { shouldValidate: true });
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        // getCountry 
+        const getCities = async () => {
+            try {
+                const response: any = await axios.post(
+                    `/api/pathao/cities`);
+                return response.data.data;
+    
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        // get_by_zone 
+        const get_by_zone = async (id: any) => {
+            try {
+                const response: any = await axios.post(
+                    `/api/pathao/zone`, {
+                    id: id
+                });
+                return response.data.data
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        // get_by_zone 
+        const get_by_area = async (id: any) => {
+            try {
+                const response: any = await axios.post(
+                    `/api/pathao/area`, {
+                    id: id
+                });
+                return response.data.data
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
+
+   //  zone
+    useEffect(() => {
+        const fetchZone = async () => {
+            if (formDataSignUp?.city_id) {
+                const result = await get_by_zone(formDataSignUp?.city_id);
+                setZone(result as any);
+            }
+        };
+
+        fetchZone();
+    }, [formDataSignUp?.city_id]);
+    // area 
+    useEffect(() => {
+        const fetchZone = async () => {
+            if (formDataSignUp?.zone_id) {
+                const result = await get_by_area(formDataSignUp?.zone_id);
+                setArea(result as any);
+            }
+        };
+
+        fetchZone();
+    }, [formDataSignUp?.zone_id]);
 
 
 
@@ -212,21 +235,16 @@ export function OtpForm({ forget = false, translate, useEmailOrPhone, formData, 
 
     }
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setFormData({
-            ...formDataSignUp,
-            [e.target.name]: e.target.value
-        });
-    };
-
-
+ 
     const handleSubmitSignUp = async (data: any) => {
+
         setIsPendingSignUp(true);
         if (forget) {
             try {
                 const response: any = await axios.post(
                     `/api/confirmResetPassword`, {
-                    ...data,
+                        ...formDataSignUp,
+                        ...data,
                     email: useEmailOrPhone ? formData?.phone : formData?.email,
                     register_by: useEmailOrPhone ? 'phone' : 'email'
                 });
@@ -250,6 +268,7 @@ export function OtpForm({ forget = false, translate, useEmailOrPhone, formData, 
             try {
                 const response: any = await axios.post(
                     `/api/auth/signup`, {
+                        ...formDataSignUp,
                     ...data,
                     email_or_phone: useEmailOrPhone ? formData?.phone : formData?.email,
                     register_by: useEmailOrPhone ? 'phone' : 'email'
@@ -423,7 +442,12 @@ export function OtpForm({ forget = false, translate, useEmailOrPhone, formData, 
                                 !forget &&
 
 
-                                <AddressFormSignUp setValue={setValue} register={register} errors={errors} formData={formDataSignUp} setFormData={setFormData} country={country} state={state} cities={cities} />
+                                <AddressFormSignUp setValue={setValue} register={register} errors={errors} formData={formDataSignUp} setFormData={setFormData} country={country} state={state} 
+                                cities={cities}
+                                zone={zone}
+                                area={area}
+                                
+                                />
 
                             }
 

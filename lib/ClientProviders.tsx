@@ -86,7 +86,7 @@ export default function ClientProviders({ children }: { children: React.ReactNod
           headerTop.style.top = "0";
           headerTop.style.position = "fixed";
           headerTop.style.width = "100%";
-          headerTop.style.zIndex = "99999";
+          headerTop.style.zIndex = "999";
           headerTop.style.backgroundColor = "#fff";
           headerTop.style.boxShadow = " 0 0 8px 1px rgba(0, 0, 0, 0.2)";
           headerTop.style.animation = "900ms cubic-bezier(0.67, 0.43, 0.22, 1) 0s 1 normal none running fadeInDown";

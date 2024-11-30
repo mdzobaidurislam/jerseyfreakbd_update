@@ -42,8 +42,12 @@ export default async function Page() {
                                 <span className="ml-2">{item?.city_name}</span>
                             </div>
                             <div>
-                                <span className="w-1/2 font-semibold">State:</span>
-                                <span className="ml-2">{item?.state_name}</span>
+                                <span className="w-1/2 font-semibold">Area:</span>
+                                <span className="ml-2">{item?.area_name}</span>
+                            </div>
+                            <div>
+                                <span className="w-1/2 font-semibold">Zone:</span>
+                                <span className="ml-2">{item?.zone_name}</span>
                             </div>
                             <div>
                                 <span className="w-1/2 font-semibold">Country:</span>

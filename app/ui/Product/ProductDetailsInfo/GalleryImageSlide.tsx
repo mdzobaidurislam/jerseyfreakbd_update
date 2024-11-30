@@ -27,7 +27,7 @@ const ImageGallery = ({ productDetails }: any) => {
                 {productDetails?.photos.slice(0, limitShow).map((item: any, index: number) => (
                     <li className={`cover-image single-image ${currentIndex === index ? 'active' : ''}`} key={index}>
                         <Image
-                            width={200}
+                            
                             src={`${BASE_URL}/public/${item.path}`}
                             onClick={() => handleImageClick(index)} // Click to preview the image
                         />

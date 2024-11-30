@@ -153,7 +153,6 @@ const CheckoutForm = ({ total_point, data, addressList }: any) => {
         };
         fetchCities()
     }, [])
-
     //  zone
     useEffect(() => {
         const fetchZone = async () => {
@@ -470,9 +469,16 @@ const CheckoutForm = ({ total_point, data, addressList }: any) => {
 
     const inside_dhaka = get_setting(settingValue, 'flat_rate_shipping_cost')
     const outSide_dhaka = get_setting(settingValue, 'shipping_cost_admin')
+
     useEffect(() => {
-        setShipping(Number(inside_dhaka?.value))
-    }, [inside_dhaka])
+        if(formData?.city_id==1){
+            console.log("first")
+            setShipping(Number(inside_dhaka?.value))
+        }else{
+            setShipping(Number(outSide_dhaka?.value))
+        }
+        
+    }, [formData])
 
 
     const onSubmitShipping = (data: any) => {
@@ -602,7 +608,6 @@ const CheckoutForm = ({ total_point, data, addressList }: any) => {
                                             <label className="block text-sm font-medium text-gray-700">Email*</label>
                                             <input
                                                 {...register('email', {
-                                                    required: 'Email is required',
                                                     pattern: {
                                                         value: /^\S+@\S+$/i,
                                                         message: 'Please enter a valid email',
@@ -719,6 +724,7 @@ const CheckoutForm = ({ total_point, data, addressList }: any) => {
                                     <div className="space-y-2">
                                         <label className={` ${Number(inside_dhaka?.value) === shipping ? 'border-accent-lightPink' : 'border-gray-200'}  flex items-center space-x-2 border-[2px] py-2 px-4 rounded-xl text-base`}>
                                             <input
+                                            disabled={true}
                                                 checked={Number(inside_dhaka?.value) === shipping}
                                                 type="radio"
                                                 name="shipping"
@@ -730,6 +736,7 @@ const CheckoutForm = ({ total_point, data, addressList }: any) => {
                                         </label>
                                         <label className={` ${Number(outSide_dhaka?.value) === shipping ? 'border-accent-lightPink' : 'border-gray-200'}  flex items-center space-x-2 border-[2px] py-2 px-4 rounded-xl text-base`}>
                                             <input
+                                             disabled={true}
                                                 checked={Number(outSide_dhaka?.value) === shipping}
                                                 type="radio"
                                                 name="shipping"
@@ -770,9 +777,10 @@ const CheckoutForm = ({ total_point, data, addressList }: any) => {
                                 currentStep == 3 && <> <div className="flex justify-start space-x-4 flex-wrap items-center ">
                                     {
                                         payment_types.map((item: any) => (
-                                            <div onClick={() => setSelectedPayment(item.payment_type)} className={`w-[100px] cursor-pointer  rounded-lg border-[1px] p-2  ${selectedPayment === item.payment_type ? 'border-[2px] border-accent-lightPink ' : 'border-arival'}`} >
+                                            item.payment_type_key !=='wallet' &&
+                                            <div onClick={() => setSelectedPayment(item.payment_type)} className={`max-w-max cursor-pointer  rounded-lg border-[1px] p-2  ${selectedPayment === item.payment_type ? 'border-[2px] border-accent-lightPink ' : 'border-arival'}`} >
                                                 <img src={item.image} alt={item.name} className="w-20 mb-2" />
-                                                <span className="text-center">{item.name}</span>
+                                                <span className="text-center">{item.title}</span>
                                             </div>
                                         ))
                                     }

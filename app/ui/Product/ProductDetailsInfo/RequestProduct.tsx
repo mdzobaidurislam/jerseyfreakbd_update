@@ -57,7 +57,8 @@ export default function RequestProduct({ setMessage, setSuccessModal, product_id
 
             <form onSubmit={handleSubmit(onSubmitShipping)} className="space-y-6">
                 <div className=''>
-                    <h2 className="text-2xl font-medium text-[#404040] mb-3 ">Product Request</h2>
+                    <h2 className="text-2xl font-medium text-[#404040]  ">Product Request</h2>
+                    <p className='font-medium text-[#404040] mb-3'>This product is out of stock.</p>
                     <div className="space-y-4">
                         <div className='flex flex-wrap lg:flex-nowrap items-center gap-2 '>
                             <div className='w-full lg:w-1/2 xl:w-1/2'>

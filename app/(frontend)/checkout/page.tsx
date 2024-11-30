@@ -31,7 +31,6 @@ export default async function Page() {
     const token: any = await auth();
     const result = await getAddressList(token?.user?.id);
 
-
     const data = result?.data
     const defaultAddress = result?.data?.find((item: any) => item.set_default === 1)
     const total_point = await getTotalPoint(token?.user?.id);

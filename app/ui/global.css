@@ -1379,9 +1379,9 @@
 }
 .product--gallery {
   display: flex;
-  flex: 0 0 500px;
+  /* flex: 0 0 500px; */
   flex-wrap: wrap;
-  max-width: 500px;
+  /* max-width: 500px; */
   position: relative;
   width: 100%;
 }

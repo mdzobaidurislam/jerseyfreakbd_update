@@ -1,7 +1,7 @@
 "use client";
 import { Button } from '@/app/ui/button';
 import { cookieStore } from '@/lib/hooks/useCookieStore';
-import { Loader2, ShoppingCart, X } from 'lucide-react';
+import { CheckCircle, Loader2, ShoppingCart, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
@@ -11,6 +11,7 @@ import { Dialog, DialogContent, DialogFooter } from '@/components/ui/dialog';
 import ProductOptions from '../ProductOptions';
 import CustomImage from '../../CustomImage/CustomImage';
 import { productStore } from '@/lib/hooks/useProductStore';
+import RequestProduct from '../ProductDetailsInfo/RequestProduct';
 
 export default function SingleAddToCart({
     id,
@@ -23,7 +24,8 @@ export default function SingleAddToCart({
 
     const { heading_title_value } = cookieStore();
     const addToCart = heading_title_value?.addToCart
-    const { combinationName, variantImage, addToCartOption, setOpenCart } = productStore();
+    const { qtyV,combinationName, variantImage, addToCartOption, setOpenCart,combinationId } = productStore();
+    
     const [loading, setLoading] = useState<boolean>(false);
     const [qty, setQty] = useState<number>(1);
     const [temp_user, setTemp_user] = useState<any>(null);
@@ -37,6 +39,10 @@ export default function SingleAddToCart({
         temp_user_id: state.temp_user_id,
     }));
     const { price, setPriceValue, patchPrice } = productStore();
+    const [isRequestModal, setIsRequestModal] = useState(false);
+    const [requestVariation, setRequestVariation] = useState<any>(null);
+    const [successModal, setSuccessModal] = useState<boolean>(false);
+    const [message, setMessage] = useState<any>(null);
 
     useEffect(() => {
         if (main_price) {
@@ -47,6 +53,13 @@ export default function SingleAddToCart({
 
 
     const addToCartHandler = async () => {
+        if (qtyV === 0) {
+            setIsDialogOpen(false)
+            setIsRequestModal(true),
+            setRequestVariation(combinationId)
+            return false;
+        }
+
         setLoading(true);
         const isLoggedIn = !!cookieValue?.user?.id;
         let team_id = null;
@@ -163,6 +176,38 @@ export default function SingleAddToCart({
                     </div>
                 </DialogContent>
             </Dialog >
+
+            {isRequestModal && (
+                <Dialog open={isRequestModal} onOpenChange={setIsRequestModal}>
+                    <DialogContent className=" bottom-0 left-0 bg-transparent flex items-center justify-center " >
+                        <div className='bg-white relative'>
+                            <div onClick={() => setIsRequestModal(false)} className=' cursor-pointer absolute top-0 right-0 ' >
+                                <X className='text-black' />
+                            </div>
+                            <RequestProduct setSuccessModal={setSuccessModal} setMessage={setMessage} product_id={id} requestVariation={requestVariation} setRequestVariation={setRequestVariation} setIsRequestModal={setIsRequestModal} />
+                        </div>
+                    </DialogContent>
+                </Dialog>
+            )}
+
+     {successModal && (
+                <Dialog open={successModal} onOpenChange={setSuccessModal}>
+                    <DialogContent className=" bottom-0 left-0 bg-transparent flex items-center justify-center " >
+                        <div className='bg-white relative p-5 rounded-lg '>
+                            <div onClick={() => setSuccessModal(false)} className=' cursor-pointer absolute top-1 right-2 ' >
+                                <X className='text-black' />
+                            </div>
+                            <div className="flex justify-center items-center mb-4">
+
+                            <CheckCircle className="w-6 h-6 text-green-500" />
+
+                                <h2 className={`ml-4 text-xl font-semibold text-green-500 `}>{message}!</h2>
+                            </div>
+                        </div>
+                    </DialogContent>
+                </Dialog>
+            )}
+
         </>
     );
 }

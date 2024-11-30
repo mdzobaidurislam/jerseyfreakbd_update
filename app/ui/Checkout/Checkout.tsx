@@ -302,9 +302,10 @@ export default function Checkout({ data }: any) {
                                 <div className="flex justify-start space-x-4 flex-wrap items-center ">
                                     {
                                         payment_types.map((item: any) => (
+                                            item.payment_type_key !=='wallet' &&
                                             <div onClick={() => setSelectedPayment(item.payment_type)} className={`w-[100px] cursor-pointer  rounded-lg border-[1px] p-2  ${selectedPayment === item.payment_type ? 'border-[2px] border-[#1A0000] ' : 'border-[#6B6B6B]'}`} >
                                                 <img src={item.image} alt={item.name} className="w-20 mb-2" />
-                                                <span className="text-center">{item.name}</span>
+                                                <span className="text-center">{item.title}</span>
                                             </div>
                                         ))
                                     }

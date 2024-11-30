@@ -25,7 +25,7 @@ interface ChoiceOption {
     title: string;
 }
 
-const ProductOptions: React.FC<ProductOptionsProps> = ({ id, choice_options, colors }: any) => {
+const ProductOptions: React.FC<ProductOptionsProps> = ({ id, choice_options, colors,stocks }: any) => {
     const { setQty, setPriceValue, combinationName, setCombinationName, setCombinationId } = productStore();
     const [selectedOptions, setSelectedOptions] = useState<{ [key: string]: string }>({});
     const [selectedColor, setSelectedColor] = useState('');
@@ -110,7 +110,7 @@ const ProductOptions: React.FC<ProductOptionsProps> = ({ id, choice_options, col
                                     //     handleRequest(item)
                                     // }
                                 }
-                                } className={` cursor-pointer basis-[20%] grow-0 shrink-0 flex flex-col h-[50px] py-[8px] px-[20px] items-center ${selectedOptions[option.title] === item ? '!border-[#E01F26] ' : ''}   justify-center border-[1px] 
+                                } className={` cursor-pointer max-w-max grow-0 shrink-0 flex flex-col h-[50px] py-[8px] px-[20px] items-center ${selectedOptions[option.title] === item ? '!border-[#E01F26] ' : ''}   justify-center border-[1px] 
                             
                               max-w-max `}
 
